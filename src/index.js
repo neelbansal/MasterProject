@@ -31,16 +31,20 @@ app.get("/", (req, res) => {
   res.send("login.html");
 });
 
-app.post("/", (req, res) => {
- new Form({
-   Name: req.body.Name,
-   Email: req.body.Email,
-   Age: req.body.Age,
- });
-newForm.save(); 
-res.redirect("/");
-})
-
+app.post('/post-feedback', function (req, res) {
+  mongoose.connect.then(function(db) {
+      delete req.body._id; // for safety reasons
+      db.collection('feedbacks').insertOne(req.body);
+  });    
+  res.send('Data received:\n' + JSON.stringify(req.body));
+});
+app.get('/view-feedbacks',  function(req, res) {
+  mongoose.connect.then(function(db) {
+      db.collection('feedbacks').find({}).toArray().then(function(feedbacks) {
+          res.status(200).json(feedbacks);
+      });
+  });
+});
 app.listen(8000, () => {
   console.log("Listening to port 8000");
 });

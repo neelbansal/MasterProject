@@ -1,32 +1,23 @@
-/**
- * @license
- * lodash 4.6.1 <https://lodash.com/>
- * Copyright 2012-2016 The Dojo Foundation <http://dojofoundation.org/>
- * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
- * Copyright 2009-2016 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- * Available under MIT license <https://lodash.com/license>
- */
+
 ;(function() {
 
-  /** Used as a safe reference for `undefined` in pre-ES5 environments. */
+
   var undefined;
 
-  /** Used as the semantic version number. */
+
   var VERSION = '4.6.1';
 
-  /** Used as the size to enable large array optimizations. */
   var LARGE_ARRAY_SIZE = 200;
 
-  /** Used as the `TypeError` message for "Functions" methods. */
+
   var FUNC_ERROR_TEXT = 'Expected a function';
 
-  /** Used to stand-in for `undefined` hash values. */
+
   var HASH_UNDEFINED = '__lodash_hash_undefined__';
 
-  /** Used as the internal argument placeholder. */
   var PLACEHOLDER = '__lodash_placeholder__';
 
-  /** Used to compose bitmasks for wrapper metadata. */
+
   var BIND_FLAG = 1,
       BIND_KEY_FLAG = 2,
       CURRY_BOUND_FLAG = 4,
@@ -38,35 +29,34 @@
       REARG_FLAG = 256,
       FLIP_FLAG = 512;
 
-  /** Used to compose bitmasks for comparison styles. */
+
   var UNORDERED_COMPARE_FLAG = 1,
       PARTIAL_COMPARE_FLAG = 2;
 
-  /** Used as default options for `_.truncate`. */
+
   var DEFAULT_TRUNC_LENGTH = 30,
       DEFAULT_TRUNC_OMISSION = '...';
 
-  /** Used to detect hot functions by number of calls within a span of milliseconds. */
+
   var HOT_COUNT = 150,
       HOT_SPAN = 16;
 
-  /** Used to indicate the type of lazy iteratees. */
   var LAZY_FILTER_FLAG = 1,
       LAZY_MAP_FLAG = 2,
       LAZY_WHILE_FLAG = 3;
 
-  /** Used as references for various `Number` constants. */
+
   var INFINITY = 1 / 0,
       MAX_SAFE_INTEGER = 9007199254740991,
       MAX_INTEGER = 1.7976931348623157e+308,
       NAN = 0 / 0;
 
-  /** Used as references for the maximum length and index of an array. */
+
   var MAX_ARRAY_LENGTH = 4294967295,
       MAX_ARRAY_INDEX = MAX_ARRAY_LENGTH - 1,
       HALF_MAX_ARRAY_LENGTH = MAX_ARRAY_LENGTH >>> 1;
 
-  /** `Object#toString` result references. */
+
   var argsTag = '[object Arguments]',
       arrayTag = '[object Array]',
       boolTag = '[object Boolean]',
@@ -95,73 +85,69 @@
       uint16Tag = '[object Uint16Array]',
       uint32Tag = '[object Uint32Array]';
 
-  /** Used to match empty string literals in compiled template source. */
+  
   var reEmptyStringLeading = /\b__p \+= '';/g,
       reEmptyStringMiddle = /\b(__p \+=) '' \+/g,
       reEmptyStringTrailing = /(__e\(.*?\)|\b__t\)) \+\n'';/g;
 
-  /** Used to match HTML entities and HTML characters. */
   var reEscapedHtml = /&(?:amp|lt|gt|quot|#39|#96);/g,
       reUnescapedHtml = /[&<>"'`]/g,
       reHasEscapedHtml = RegExp(reEscapedHtml.source),
       reHasUnescapedHtml = RegExp(reUnescapedHtml.source);
 
-  /** Used to match template delimiters. */
   var reEscape = /<%-([\s\S]+?)%>/g,
       reEvaluate = /<%([\s\S]+?)%>/g,
       reInterpolate = /<%=([\s\S]+?)%>/g;
 
-  /** Used to match property names within property paths. */
+
   var reIsDeepProp = /\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\\]|\\.)*?\1)\]/,
       reIsPlainProp = /^\w*$/,
       rePropName = /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]/g;
 
-  /** Used to match `RegExp` [syntax characters](http://ecma-international.org/ecma-262/6.0/#sec-patterns). */
+
   var reRegExpChar = /[\\^$.*+?()[\]{}|]/g,
       reHasRegExpChar = RegExp(reRegExpChar.source);
 
-  /** Used to match leading and trailing whitespace. */
+
   var reTrim = /^\s+|\s+$/g,
       reTrimStart = /^\s+/,
       reTrimEnd = /\s+$/;
 
-  /** Used to match backslashes in property paths. */
+
   var reEscapeChar = /\\(\\)?/g;
 
-  /** Used to match [ES template delimiters](http://ecma-international.org/ecma-262/6.0/#sec-template-literal-lexical-components). */
+ 
   var reEsTemplate = /\$\{([^\\}]*(?:\\.[^\\}]*)*)\}/g;
 
-  /** Used to match `RegExp` flags from their coerced string values. */
+
   var reFlags = /\w*$/;
 
-  /** Used to detect hexadecimal string values. */
+ 
   var reHasHexPrefix = /^0x/i;
 
-  /** Used to detect bad signed hexadecimal string values. */
+  
   var reIsBadHex = /^[-+]0x[0-9a-f]+$/i;
 
-  /** Used to detect binary string values. */
+
   var reIsBinary = /^0b[01]+$/i;
 
-  /** Used to detect host constructors (Safari > 5). */
+ 
   var reIsHostCtor = /^\[object .+?Constructor\]$/;
 
-  /** Used to detect octal string values. */
   var reIsOctal = /^0o[0-7]+$/i;
 
-  /** Used to detect unsigned integer values. */
+
   var reIsUint = /^(?:0|[1-9]\d*)$/;
 
-  /** Used to match latin-1 supplementary letters (excluding mathematical operators). */
+
   var reLatin1 = /[\xc0-\xd6\xd8-\xde\xdf-\xf6\xf8-\xff]/g;
 
-  /** Used to ensure capturing order of template delimiters. */
   var reNoMatch = /($^)/;
 
-  /** Used to match unescaped characters in compiled string literals. */
+
   var reUnescapedString = /['\n\r\u2028\u2029\\]/g;
 
-  /** Used to compose unicode character classes. */
+
   var rsAstralRange = '\\ud800-\\udfff',
       rsComboMarksRange = '\\u0300-\\u036f\\ufe20-\\ufe23',
       rsComboSymbolsRange = '\\u20d0-\\u20f0',
@@ -175,7 +161,7 @@
       rsVarRange = '\\ufe0e\\ufe0f',
       rsBreakRange = rsMathOpRange + rsNonCharRange + rsQuoteRange + rsSpaceRange;
 
-  /** Used to compose unicode capture groups. */
+
   var rsAstral = '[' + rsAstralRange + ']',
       rsBreak = '[' + rsBreakRange + ']',
       rsCombo = '[' + rsComboMarksRange + rsComboSymbolsRange + ']',
@@ -191,7 +177,7 @@
       rsUpper = '[' + rsUpperRange + ']',
       rsZWJ = '\\u200d';
 
-  /** Used to compose unicode regexes. */
+
   var rsLowerMisc = '(?:' + rsLower + '|' + rsMisc + ')',
       rsUpperMisc = '(?:' + rsUpper + '|' + rsMisc + ')',
       reOptMod = rsModifier + '?',
@@ -201,22 +187,18 @@
       rsEmoji = '(?:' + [rsDingbat, rsRegional, rsSurrPair].join('|') + ')' + rsSeq,
       rsSymbol = '(?:' + [rsNonAstral + rsCombo + '?', rsCombo, rsRegional, rsSurrPair, rsAstral].join('|') + ')';
 
-  /**
-   * Used to match [combining diacritical marks](https://en.wikipedia.org/wiki/Combining_Diacritical_Marks) and
-   * [combining diacritical marks for symbols](https://en.wikipedia.org/wiki/Combining_Diacritical_Marks_for_Symbols).
-   */
+  
   var reComboMark = RegExp(rsCombo, 'g');
 
-  /** Used to match [string symbols](https://mathiasbynens.be/notes/javascript-unicode). */
+ 
   var reComplexSymbol = RegExp(rsFitz + '(?=' + rsFitz + ')|' + rsSymbol + rsSeq, 'g');
 
-  /** Used to detect strings with [zero-width joiners or code points from the astral planes](http://eev.ee/blog/2015/09/12/dark-corners-of-unicode/). */
+
   var reHasComplexSymbol = RegExp('[' + rsZWJ + rsAstralRange  + rsComboMarksRange + rsComboSymbolsRange + rsVarRange + ']');
 
-  /** Used to match non-compound words composed of alphanumeric characters. */
   var reBasicWord = /[a-zA-Z0-9]+/g;
 
-  /** Used to match complex or compound words. */
+
   var reComplexWord = RegExp([
     rsUpper + '?' + rsLower + '+(?=' + [rsBreak, rsUpper, '$'].join('|') + ')',
     rsUpperMisc + '+(?=' + [rsBreak, rsUpper + rsLowerMisc, '$'].join('|') + ')',
@@ -226,10 +208,10 @@
     rsEmoji
   ].join('|'), 'g');
 
-  /** Used to detect strings that need a more robust regexp to match words. */
+
   var reHasComplexWord = /[a-z][A-Z]|[0-9][a-zA-Z]|[a-zA-Z][0-9]|[^a-zA-Z0-9 ]/;
 
-  /** Used to assign default `context` object properties. */
+
   var contextProps = [
     'Array', 'Buffer', 'Date', 'Error', 'Float32Array', 'Float64Array',
     'Function', 'Int8Array', 'Int16Array', 'Int32Array', 'Map', 'Math', 'Object',
@@ -238,10 +220,10 @@
     'clearTimeout', 'isFinite', 'parseInt', 'setTimeout'
   ];
 
-  /** Used to make template sourceURLs easier to identify. */
+
   var templateCounter = -1;
 
-  /** Used to identify `toStringTag` values of typed arrays. */
+
   var typedArrayTags = {};
   typedArrayTags[float32Tag] = typedArrayTags[float64Tag] =
   typedArrayTags[int8Tag] = typedArrayTags[int16Tag] =
@@ -256,7 +238,7 @@
   typedArrayTags[regexpTag] = typedArrayTags[setTag] =
   typedArrayTags[stringTag] = typedArrayTags[weakMapTag] = false;
 
-  /** Used to identify `toStringTag` values supported by `_.clone`. */
+
   var cloneableTags = {};
   cloneableTags[argsTag] = cloneableTags[arrayTag] =
   cloneableTags[arrayBufferTag] = cloneableTags[boolTag] =
@@ -272,7 +254,6 @@
   cloneableTags[errorTag] = cloneableTags[funcTag] =
   cloneableTags[weakMapTag] = false;
 
-  /** Used to map latin-1 supplementary letters to basic latin letters. */
   var deburredLetters = {
     '\xc0': 'A',  '\xc1': 'A', '\xc2': 'A', '\xc3': 'A', '\xc4': 'A', '\xc5': 'A',
     '\xe0': 'a',  '\xe1': 'a', '\xe2': 'a', '\xe3': 'a', '\xe4': 'a', '\xe5': 'a',
@@ -293,7 +274,6 @@
     '\xdf': 'ss'
   };
 
-  /** Used to map characters to HTML entities. */
   var htmlEscapes = {
     '&': '&amp;',
     '<': '&lt;',
@@ -303,7 +283,7 @@
     '`': '&#96;'
   };
 
-  /** Used to map HTML entities to characters. */
+
   var htmlUnescapes = {
     '&amp;': '&',
     '&lt;': '<',
@@ -313,13 +293,11 @@
     '&#96;': '`'
   };
 
-  /** Used to determine if values are of the language type `Object`. */
   var objectTypes = {
     'function': true,
     'object': true
   };
 
-  /** Used to escape characters for inclusion in compiled string literals. */
   var stringEscapes = {
     '\\': '\\',
     "'": "'",
@@ -329,43 +307,32 @@
     '\u2029': 'u2029'
   };
 
-  /** Built-in method references without a dependency on `root`. */
   var freeParseFloat = parseFloat,
       freeParseInt = parseInt;
 
-  /** Detect free variable `exports`. */
   var freeExports = (objectTypes[typeof exports] && exports && !exports.nodeType)
     ? exports
     : undefined;
 
-  /** Detect free variable `module`. */
+
   var freeModule = (objectTypes[typeof module] && module && !module.nodeType)
     ? module
     : undefined;
 
-  /** Detect the popular CommonJS extension `module.exports`. */
   var moduleExports = (freeModule && freeModule.exports === freeExports)
     ? freeExports
     : undefined;
 
-  /** Detect free variable `global` from Node.js. */
   var freeGlobal = checkGlobal(freeExports && freeModule && typeof global == 'object' && global);
 
-  /** Detect free variable `self`. */
   var freeSelf = checkGlobal(objectTypes[typeof self] && self);
 
-  /** Detect free variable `window`. */
   var freeWindow = checkGlobal(objectTypes[typeof window] && window);
 
-  /** Detect `this` as the global object. */
+
   var thisGlobal = checkGlobal(objectTypes[typeof this] && this);
 
-  /**
-   * Used as a reference to the global object.
-   *
-   * The `this` value is used if it's the global object to avoid Greasemonkey's
-   * restricted `window` object, otherwise the `window` object is used.
-   */
+
   var root = freeGlobal ||
     ((freeWindow !== (thisGlobal && thisGlobal.window)) && freeWindow) ||
       freeSelf || thisGlobal || Function('return this')();

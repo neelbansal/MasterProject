@@ -12,20 +12,16 @@ class MainController {
     this.$mdMedia = $mdMedia;
     this.$mdDialog = $mdDialog;
     
-    // Configure dates
+
     var today = new Date();
     var dd = today.getDate();
-    var mm = today.getMonth()+1; //January is 0!
+    var mm = today.getMonth(); 
     var yyyy = today.getFullYear();
 
-    if(dd<10) {
-        dd='0'+dd
-    } 
+    
 
-    if(mm<10) {
-        mm='0'+mm
-    } 
-    // Create date and slots array
+  
+
     this.days = [{dd:dd,mm:mm,yyyy:yyyy},{dd:dd+1,mm:mm,yyyy:yyyy},{dd:dd+2,mm:mm,yyyy:yyyy},{dd:dd+3,mm:mm,yyyy:yyyy}];
     this.slots= [{h:'10',m:'00'},{h:'10',m:'15'},{h:'10',m:'30'},{h:'10',m:'45'},{h:'11',m:'00'},{h:'11',m:'15'},{h:'11',m:'30'}];
   }

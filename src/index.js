@@ -5,7 +5,7 @@ require('dotenv').config();
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/appointment';
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 const app = express();
-const port = 8080;
+const port = 3000;
 app.use(express.static(__dirname + './../public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

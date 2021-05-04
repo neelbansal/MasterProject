@@ -1,8 +1,4 @@
-//! moment.js
-//! version : 2.12.0
-//! authors : Tim Wood, Iskren Chernev, Moment.js contributors
-//! license : MIT
-//! momentjs.com
+
 
 ;(function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
@@ -16,8 +12,6 @@
         return hookCallback.apply(null, arguments);
     }
 
-    // This is done to register the method called with moment()
-    // without creating circular dependencies.
     function setHookCallback (callback) {
         hookCallback = callback;
     }
@@ -2293,27 +2287,27 @@
         switch (units) {
         case 'year':
             this.month(0);
-            /* falls through */
+           
         case 'quarter':
         case 'month':
             this.date(1);
-            /* falls through */
+           
         case 'week':
         case 'isoWeek':
         case 'day':
             this.hours(0);
-            /* falls through */
+           
         case 'hour':
             this.minutes(0);
-            /* falls through */
+           
         case 'minute':
             this.seconds(0);
-            /* falls through */
+           
         case 'second':
             this.milliseconds(0);
         }
 
-        // weeks are a special case
+  
         if (units === 'week') {
             this.weekday(0);
         }
@@ -2876,41 +2870,31 @@
     }
 
 
-    // MOMENTS
-
-    // Setting the hour should keep the time, because the user explicitly
-    // specified which hour he wants. So trying to maintain the same hour (in
-    // a new timezone) makes sense. Adding/subtracting hours does not follow
-    // this rule.
+   
     var getSetHour = makeGetSet('Hours', true);
 
-    // FORMATTING
-
+ 
     addFormatToken('m', ['mm', 2], 0, 'minute');
 
-    // ALIASES
 
     addUnitAlias('minute', 'm');
 
-    // PARSING
 
     addRegexToken('m',  match1to2);
     addRegexToken('mm', match1to2, match2);
     addParseToken(['m', 'mm'], MINUTE);
 
-    // MOMENTS
-
     var getSetMinute = makeGetSet('Minutes', false);
 
-    // FORMATTING
+
 
     addFormatToken('s', ['ss', 2], 0, 'second');
 
-    // ALIASES
+
 
     addUnitAlias('second', 's');
 
-    // PARSING
+
 
     addRegexToken('s',  match1to2);
     addRegexToken('ss', match1to2, match2);
@@ -3481,14 +3465,14 @@
 
     var round = Math.round;
     var thresholds = {
-        s: 45,  // seconds to minute
-        m: 45,  // minutes to hour
-        h: 22,  // hours to day
-        d: 26,  // days to month
-        M: 11   // months to year
+        s: 45,  
+        m: 45,  
+        h: 22, 
+        d: 26,  
+        M: 11  
     };
 
-    // helper function for moment.fn.from, moment.fn.fromNow, and moment.duration.fn.humanize
+  
     function substituteTimeAgo(string, number, withoutSuffix, isFuture, locale) {
         return locale.relativeTime(number || 1, !!withoutSuffix, string, isFuture);
     }
@@ -3519,7 +3503,6 @@
         return substituteTimeAgo.apply(null, a);
     }
 
-    // This function allows you to set a threshold for relative time strings
     function duration_humanize__getSetRelativeTimeThreshold (threshold, limit) {
         if (thresholds[threshold] === undefined) {
             return false;

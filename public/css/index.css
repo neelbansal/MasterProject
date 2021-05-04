@@ -24,7 +24,7 @@ body{
 	margin: auto;
 	padding: 10px 10px;
 }
-/* Start Header Coding */
+
 
 header{
 	width: 100%;
@@ -52,7 +52,7 @@ header .menu .brand-name h2{
 	font-size: 35px;
 	color: white;
 }
-/* start nav ul li coding */
+
 header .menu nav{
 	width: 65%;
 	float: left;
@@ -170,7 +170,7 @@ section .about-box div:nth-child(2){
 	float: left;
 	padding: 10px;
 }
-/* gallery Coding */
+
 section .form-box{
 	padding: 20px;
 }
@@ -227,14 +227,6 @@ section .form-box form #register-btn{
 section .form-box form #contact-btn:hover{
 	background: #080896;
 }
-section .form-box form #login-btn:hover{
-	background: #9E0707;
-}
-section .form-box form #register-btn:hover{
-	background: blue;
-}
-/* End Section Coding */
-/* Start Footer Coding */
 
 footer{
 	width: 100%;
